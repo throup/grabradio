@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<playlist xmlns="http://bbc.co.uk/2008/emp/playlist" revision="1">
+  <config>
+    <plugin name="iPlayerLiveStats"/>
+  </config> 
+  <id>tag:bbc.co.uk,2008:pips:b00j1dvv:playlist</id>
+  <link rel="self" href="http://www.bbc.co.uk/iplayer/playlist/b00j1dvv/"/>
+  <link rel="alternate" href="http://www.bbc.co.uk/iplayer/episode/b00j1dvv/HR_A_Leaving_Party/"/>
+  <link rel="holding" href="http://ichef.bbci.co.uk/programmeimages/episode/b00j1dvv_640_360.jpg" height="360" width="640" type="image/jpeg" />
+  <link rel="masterbrand" href="http://www.bbc.co.uk/radio4" />
+  <title>HR: A Leaving Party</title>
+  <summary>Peter and Sam meet on their way to a leaving party - but whose? Comedy drama series by Nigel Williams.</summary>
+  <updated>2013-01-16T10:11:44Z</updated>  <rights>
+    <right name="embed">unset</right>
+  </rights>  <item kind="radioProgramme" duration="1800" identifier="b00j1dm7" group="b00j1dvv" publisher="pips">
+    <title>HR: A Leaving Party</title>
+    <broadcast>2013-01-24T09:30:00Z</broadcast>
+    <service id="bbc_radio_four_extra" href="http://www.bbc.co.uk/iplayer/bbc_radio_four_extra">BBC Radio 4 Extra</service>
+    <masterbrand id="bbc_radio_four" href="http://www.bbc.co.uk/iplayer/radio/bbc_radio_four">BBC Radio 4</masterbrand>
+    <passionSite href="http://www.bbc.co.uk/programmes/b00hmd45/microsite">HR</passionSite>
+    <alternate id="default" />
+    <mediator identifier="b00j1dm7" name="pips" media_set="emp"/>
+  </item>
+
+
+
+        
+		<relatedLink>
+			<id>tag:bbc.co.uk,2008:iplayer:concept_pid:b00hv33d</id>
+			<title>HR: A Role-Play</title>
+			<link rel="alternate" href="http://www.bbc.co.uk/iplayer/episode/b00hv33d/HR_A_RolePlay/" />
+			<link rel="thumb" href="http://ichef.bbci.co.uk/programmeimages/episode/b00hv33d_150_84.jpg" type="image/jpeg" width="150" height="84" />
+			<summary>Sam tries to help a disgruntled Peter when he discovers he has to apply for his own job. Stars Jonathan Pryce. From March 2009.</summary>
+		</relatedLink>
+		<relatedLink>
+			<id>tag:bbc.co.uk,2008:iplayer:concept_pid:b011d6rf</id>
+			<title>Sarah Millican's Support Group: Series 2: Episode 4</title>
+			<link rel="alternate" href="http://www.bbc.co.uk/iplayer/episode/b011d6rf/Sarah_Millicans_Support_Group_Series_2_Episode_4/" />
+			<link rel="thumb" href="http://ichef.bbci.co.uk/programmeimages/episode/b011d6rf_150_84.jpg" type="image/jpeg" width="150" height="84" />
+			<summary>Award winning comedian Sarah Millican plays Sarah, modern day agony aunt dishing out real advice for real people, solving the nations problems with her Support Group.</summary>
+		</relatedLink>
+</playlist>
