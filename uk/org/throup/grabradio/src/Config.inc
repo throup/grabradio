@@ -33,7 +33,14 @@ namespace uk\org\throup\grabradio {
 		public static function toIgnore($brand) {
 			return (in_array($brand, self::$_ignore));
 		}
+		public static function setLibraryPath($path) {
+			self::$_library = $path;
+		}
+		public static function getLibraryPath() {
+			return self::$_library;
+		}
 		private static $_stations = array();
 		private static $_ignore   = array();
+		private static $_library  = '';
 	}
 }
