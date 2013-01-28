@@ -62,7 +62,7 @@ namespace uk\org\throup\grabradio {
 				throw new \Exception("get_iplayer did not complete stream successfully");
 			}
 
-			$command = 'ffmpeg -i ' . escapeshellarg($tempfile) . ' -c copy -map 0 -y -f mp4 ' . escapeshellarg($this->_filename);
+			$command = 'ffmpeg -i ' . escapeshellarg($tempfile) . ' -c copy -map 0 -y -f ipod ' . escapeshellarg($this->_filename);
 			if (!$this->_execute($command)) {
 				echo "\n\n";
 				echo "ffmpeg output:\n";
