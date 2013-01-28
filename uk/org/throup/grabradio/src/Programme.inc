@@ -27,6 +27,10 @@ namespace uk\org\throup\grabradio {
 			echo "done.\n";
 		}
 		
+		public function getBrand() {
+			return $this->_metadata->getBrand();
+		}
+		
 		public function obtainMedia() {
 			$getter = Factory::getMediaGetter();
 			$this->_media = $getter->get($this->getPid());
