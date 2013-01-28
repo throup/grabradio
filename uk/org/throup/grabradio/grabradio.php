@@ -1,7 +1,7 @@
 <?php
 namespace uk\org\throup\grabradio {
 	require_once(__DIR__ . '/_config.inc');
-	
+
 	$pids = array();
 	foreach (Config::getStations() as $station) {
 		echo "Getting feed for $station... ";
@@ -18,13 +18,15 @@ namespace uk\org\throup\grabradio {
 	foreach ($pids as $pid) {
 		try {
 			$programme = Factory::getProgramme($pid);
-			echo "Getting $pid... ";
-			$programme->obtainMedia();
-			echo "done.\n";
-			echo "Moving $pid to library... ";
-			$library->organiseProgramme($programme);
-			echo "done.\n\n";
-			$success[] = $pid;
+			if (!Config::toIgnore($programme->getBrand())) {
+				echo "Getting $pid... ";
+				$programme->obtainMedia();
+				echo "done.\n";
+				echo "Moving $pid to library... ";
+				$library->organiseProgramme($programme);
+				echo "done.\n\n";
+				$success[] = $pid;
+			}
 		} catch (\Exception $e) {
 			$failure[] = $pid;
 			echo "\n";
