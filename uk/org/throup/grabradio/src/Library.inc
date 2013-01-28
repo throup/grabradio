@@ -3,8 +3,13 @@ namespace uk\org\throup\grabradio {
 	require_once(__DIR__ . '/../_config.inc');
 
 	class Library {
+		public function setDirectory($dir) {
+			$this->_dir = $dir;
+		}
+		
 		public function organiseProgramme(Programme $programme) {
 			$metadata  = $programme->getMetadata();
+			$extension = 'm4a';
 			
 			$brand     = self::tidyName($metadata->getBrand());
 			$prog      = self::tidyName($metadata->getProgramme());
@@ -42,9 +47,16 @@ namespace uk\org\throup\grabradio {
 				}
 				$filename .= ' ';
 			}
-			$filename .= "$title.m4a";
+			$filename .= "$title";
 			
-			$programme->moveTo($filename);
+			$count = 0;
+			$testname = $filename;
+			while (file_exists("$testname.$extension")) {
+				$count++;
+				$testname = "$filename-$count";
+			}
+			$filename = $testname;
+			$programme->moveTo("$filename.$extension");
 		}
 		
 		public static function tidyName($name) {
@@ -55,6 +67,6 @@ namespace uk\org\throup\grabradio {
 			return $name;
 		}
 		
-		private $_dir = '/storage/shared/Radio test';
+		private $_dir = '';
 	}
 }

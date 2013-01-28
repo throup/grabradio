@@ -7,7 +7,9 @@ namespace uk\org\throup\grabradio {
 		}
 		
 		public static function getLibrary() {
-			return new Library();
+			$library = new Library();
+			$library->setDirectory(Config::getLibraryPath());
+			return $library;
 		}
 		
 		public static function getProgramme($pid) {
