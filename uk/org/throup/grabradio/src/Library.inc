@@ -6,9 +6,9 @@ namespace uk\org\throup\grabradio {
 		public function organiseProgramme(Programme $programme) {
 			$metadata  = $programme->getMetadata();
 			
-			$brand     = $metadata->getBrand();
-			$prog      = $metadata->getProgramme();
-			$title     = $metadata->getTitle();
+			$brand     = self::tidyName($metadata->getBrand());
+			$prog      = self::tidyName($metadata->getProgramme());
+			$title     = self::tidyName($metadata->getTitle());
 			$year      = date('Y', $metadata->getDate());
 			$episode   = $metadata->getEpisode();
 			$series    = $metadata->getSeries();
@@ -45,6 +45,14 @@ namespace uk\org\throup\grabradio {
 			$filename .= "$title.m4a";
 			
 			$programme->moveTo($filename);
+		}
+		
+		public static function tidyName($name) {
+			$name = ucwords(preg_replace('/\//', '_', $name));
+			if ('The ' == substr($name, 0, 4)) {
+				$name = substr($name, 4) . ', The';
+			}
+			return $name;
 		}
 		
 		private $_dir = '/storage/shared/Radio test';
