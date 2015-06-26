@@ -9,18 +9,15 @@
   ],
   "autoload": {
     "psr-4": {
-      "Throup\\GrabRadio\\": "src/",
-      "uk\\org\\throup\\grabradio\\": "uk/org/throup/grabradio/src/"
-    },
-    "classmap": [
-      "uk/org/throup/grabradio/"
-    ]
+      "Throup\\GrabRadio\\": "src/"
+    }
   },
   "include-path": ["uk"],
   "require-dev": {
     "phpunit/phpunit": "~4.7"
   },
   "require": {
-    "guzzlehttp/guzzle": "~3.0"
+    "guzzlehttp/guzzle": "~3.0",
+    "ext-tidy": "*"
   }
 }

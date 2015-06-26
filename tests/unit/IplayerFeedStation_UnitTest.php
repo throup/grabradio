@@ -3,12 +3,7 @@ namespace Throup\GrabRadio;
 
 class IplayerFeedStation_UnitTest extends \PHPUnit_Framework_TestCase {
     public function testAcceptsValidStation() {
-        try {
-            $feed = new IplayerFeedStation($this->_station);
-        } catch (\Exception $e) {
-            $this->fail();
-        }
-        return $feed;
+        return new IplayerFeedStation($this->_station);
     }
 
     public function testRejectsEmptyStation() {

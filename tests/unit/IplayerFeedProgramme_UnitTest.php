@@ -3,12 +3,7 @@ namespace Throup\GrabRadio;
 
 class IplayerFeedProgramme_UnitTest extends \PHPUnit_Framework_TestCase {
     public function testAcceptsValidPid() {
-        try {
-            $feed = new IplayerFeedProgramme($this->_pid);
-        } catch (\Exception $e) {
-            $this->fail();
-        }
-        return $feed;
+        return new IplayerFeedProgramme($this->_pid);
     }
 
     public function testGetMetadataForCraven() {
