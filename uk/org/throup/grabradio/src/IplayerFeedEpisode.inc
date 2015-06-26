@@ -11,12 +11,12 @@ namespace uk\org\throup\grabradio {
 		}
 		protected function _extractMetadata() {
 			$playlist = $this->_getXml();
-			if ($playlist->getName() != "playlist"
-			 || $feed->children('http://bbc.co.uk/2008/emp/playlist')->count() < 1) {
+            if ($playlist->getName() != "playlist"
+			 || $playlist->children('http://bbc.co.uk/2008/emp/playlist')->count() < 1) {
 				throw new \Exception("No BBC playlist found.");
 			}
 			$this->_pids = array();
-			foreach ($feed->children('http://www.w3.org/2005/Atom')->entry as $entry) {
+			foreach ($playlist->children('http://www.w3.org/2005/Atom')->entry as $entry) {
 				$idstring = $entry->id[0];
 				$matches = array();
 				if (preg_match('/^tag\:feeds\.bbc\.co\.uk\,2008\:PIPS\:([a-z0-9]{8})$/', $idstring, $matches)) {

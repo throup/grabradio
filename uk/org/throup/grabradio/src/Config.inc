@@ -28,10 +28,11 @@ namespace uk\org\throup\grabradio {
 			self::$_stations = (array) $array;
 		}
 		public static function ignoreBrands($array) {
+			$array = array_map('strtolower', $array);
 			self::$_ignore = array_merge(self::$_ignore, $array);
 		}
 		public static function toIgnore($brand) {
-			return (in_array($brand, self::$_ignore));
+			return (in_array(strtolower($brand), self::$_ignore));
 		}
 		public static function setLibraryPath($path) {
 			self::$_library = $path;

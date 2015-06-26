@@ -32,10 +32,13 @@ namespace uk\org\throup\grabradio {
 		private function _extractXml() {
 			$content = $this->_getContent();
 			if ($this->_runTidy) {
-				$tidy = new \tidy;
-				$content = (string) $tidy->repairString($content, array('output-xml'=>true, 'wrap'=>0), 'utf8');
+				$tidy = new \tidy();
+				$content = (string) $tidy->repairString($content, array('input-xml'=>true, 'output-xml'=>true, 'wrap'=>80, 'force-output'=>true), 'utf8');
 				$content = self::remove_entities($content);
 			}
+            if (get_class($this) == 'uk\org\throup\grabradio\IplayerFeedProgramme') {
+               # file_put_contents('/tmp/ref.xml', $content); exit();
+            }
 			$this->_xml = new \SimpleXMLElement($content);
 		}
 		protected static function _validateUrl($url) {

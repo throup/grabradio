@@ -30,6 +30,12 @@ namespace uk\org\throup\grabradio {
 		public function getBrand() {
 			return $this->_metadata->getBrand();
 		}
+		public function getProgramme() {
+			return $this->_metadata->getProgramme();
+		}
+		public function getTitle() {
+			return $this->_metadata->getTitle();
+		}
 		
 		public function obtainMedia() {
 			$getter = Factory::getMediaGetter();

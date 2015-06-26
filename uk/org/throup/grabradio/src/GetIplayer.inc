@@ -74,6 +74,7 @@ namespace uk\org\throup\grabradio {
 				echo "ffmpeg return value: ", $this->_return, "\n\n";
 				throw new \Exception("ffmpeg failed to remux the media file. ($command)");
 			}
+			chmod($this->_filename, 0644);
 			unlink($tempfile);			
 			return Factory::getFile($this->_filename);
 		}
