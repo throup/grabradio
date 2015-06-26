@@ -1,7 +1,7 @@
 <?php
 namespace Throup\GrabRadio;
 
-class IplayerFeedEpisode extends IplayerFeed {
+class IplayerFeedEpisode extends IplayerXMLFeed {
     public function __construct($pid) {
         self::_validatePid($pid);
         $this->_pid = $pid;

@@ -26,11 +26,11 @@ class IplayerFeedProgramme_UnitTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(0, $feed->getTotal());
     }
 
-    public function testGetMetadataForOutsourced() {
+    public function testGetMetadataForTheOutsourced() {
         $feed = new IplayerFeedProgramme('b01pzqpv');
-        $this->assertEquals("Outsourced", $feed->getBrand());
-        $this->assertEquals("Outsourced", $feed->getProgramme());
-        $this->assertEquals("Outsourced", $feed->getTitle());
+        $this->assertEquals("The Outsourced", $feed->getBrand());
+        $this->assertEquals("The Outsourced", $feed->getProgramme());
+        $this->assertEquals("The Outsourced", $feed->getTitle());
         $this->assertEquals(0, $feed->getSeries());
         $this->assertEquals(0, $feed->getEpisode());
         $this->assertEquals(0, $feed->getTotal());
@@ -88,7 +88,7 @@ class IplayerFeedProgramme_UnitTest extends \PHPUnit_Framework_TestCase {
      * @depends testAcceptsValidPid
      */
     public function testSetsValidUrl($feed) {
-        $this->assertEquals("http://www.bbc.co.uk/programmes/{$this->_pid}", $feed->getUrl());
+        $this->assertEquals("http://www.bbc.co.uk/programmes/{$this->_pid}.json", $feed->getUrl());
         return;
     }
 

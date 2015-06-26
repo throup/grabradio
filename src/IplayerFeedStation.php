@@ -1,7 +1,7 @@
 <?php
 namespace Throup\GrabRadio;
 
-class IplayerFeedStation extends IplayerFeed {
+class IplayerFeedStation extends IplayerXMLFeed {
     public function __construct($station) {
         self::_validateStation($station);
         $url = "http://feeds.bbc.co.uk/iplayer/$station/list";
@@ -38,4 +38,3 @@ class IplayerFeedStation extends IplayerFeed {
     protected $_pids = [];
 }
 
-		

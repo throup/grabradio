@@ -1,11 +1,11 @@
 <?php
 namespace Throup\GrabRadio;
 
-class IplayerFeedProgramme extends IplayerFeed implements I_MetadataProvider {
+class IplayerFeedProgramme extends IplayerJsonFeed implements I_MetadataProvider {
     public function __construct($pid) {
         self::_validatePid($pid);
         $this->_pid = $pid;
-        $url        = "http://www.bbc.co.uk/programmes/$pid";
+        $url        = "http://www.bbc.co.uk/programmes/$pid.json";
         $this->_setUrl($url);
         $this->_runTidy = true;
         parent::__construct($url);
@@ -20,8 +20,7 @@ class IplayerFeedProgramme extends IplayerFeed implements I_MetadataProvider {
     }
 
     protected function _extractMetadata() {
-        $feed = $this->_getXml();
-        $feed->registerXPathNamespace('xhtml', 'http://www.w3.org/1999/xhtml');
+        $feed = $this->_getExtractedContent();
 
         $parts       = [];
         $series      = 0;
@@ -30,62 +29,34 @@ class IplayerFeedProgramme extends IplayerFeed implements I_MetadataProvider {
         $date        = '';
         $description = '';
 
-        if ($feed->xpath('//xhtml:a[@typeof="po:Brand"]')) {
-            if ($grab = $feed->xpath('//xhtml:a[@typeof="po:Brand"]/xhtml:span[@property="dc:title"]')) {
-                $parts[] = (string)$grab[0];
-            }
-        } elseif ($feed->xpath('//xhtml:a[@typeof="po:Series"]')) {
-            if ($grab = $feed->xpath('//xhtml:a[@typeof="po:Series"]/xhtml:span[@property="dc:title"]')) {
-                $parts[] = (string)$grab[0];
-            }
-        } elseif ($feed->xpath('//xhtml:a[@typeof="po:Episode"]')) {
-            if ($grab = $feed->xpath('//xhtml:a[@typeof="po:Episode"]/xhtml:span[@property="dc:title"]')) {
-                $parts[] = (string)$grab[0];
+        $entity  = $feed->programme;
+        while (true) {
+            array_unshift($parts, $entity->title);
+            if (isset($entity->parent) && isset($entity->parent->programme)) {
+                $entity = $entity->parent->programme;
+            } else {
+                break;
             }
         }
 
-        if ($feed->xpath('//xhtml:div[@class="episode-details"]')) {
-            if ($feed->xpath('//xhtml:div[@class="episode-details"]/xhtml:div[@id="context"]')) {
-                if ($feed->xpath('//xhtml:div[@class="episode-details"]/xhtml:div[@id="context"]/xhtml:p/xhtml:span[@class="parents"]')) {
-                    foreach ($feed->xpath('//xhtml:div[@class="episode-details"]/xhtml:div[@id="context"]/xhtml:p/xhtml:span[@class="parents"]/xhtml:span[@class="programme"]/xhtml:a')
-                             as $parent) {
-                        $parts[] = (string)$parent;
-                    }
-                }
-            }
-            if ($grab = $feed->xpath('//xhtml:div[@class="episode-details"]/xhtml:*[@class="episode-title"]')) {
-                $parts[] = (string)$grab[0];
-            }
-            if ($grab
-                = $feed->xpath('//xhtml:div[@class="episode-details"]/xhtml:div[@id="synopsis"]/xhtml:div[@property="dc:description"]')
-            ) {
-                $description = $grab[0]->asXML();
-                $description = preg_replace('/<p[^>]*>(.*?)<\/p>/s', "\\1\n", $description);
-                $description = preg_replace('/<br[^>]*>/', "\n", $description);
-                $description = preg_replace('/<[^>]*>/', '', $description);
-            }
-
-            if ($grab
-                = $feed->xpath('//xhtml:div[@class="episode-details"]/xhtml:div[@id="episode-summary"]/xhtml:dl[@class="episode-summary--list-item"]')
-            ) {
-                foreach ($grab as $dl) {
-                    $dl->registerXPathNamespace('xhtml', 'http://www.w3.org/1999/xhtml');
-                    if (trim($dl->dt) == 'First broadcast:') {
-                        $date = trim($dl->dd);
-                    }
-                }
-            }
+        if ($feed->programme->long_synopsis) {
+            $description = $feed->programme->long_synopsis;
+        } else if ($feed->programme->medium_synopsis) {
+            $description = $feed->programme->medium_synopsis;
+        } else if ($feed->programme->short_synopsis) {
+            $description = $feed->programme->short_synopsis;
         }
 
-        if ($grab = $feed->xpath('//xhtml:*[@class="position"]')) {
-            $position = (string)$grab[0];
-            $matches  = [];
-            if (preg_match('/^Episode (\d+) of (\d+)$/', $position, $matches)) {
-                $episode = $matches[1];
-                $total   = $matches[2];
-            } elseif (preg_match('/^Episode (\d+)$/', $position, $matches)) {
-                $episode = $matches[1];
-            }
+        if ($feed->programme->first_broadcast_date) {
+            $date = $feed->programme->first_broadcast_date;
+        }
+
+        if ($feed->programme->position) {
+            $episode = $feed->programme->position;
+        }
+
+        if (isset($feed->programme->parent) && isset($feed->programme->parent->programme->expected_child_count)) {
+            $total = $feed->programme->parent->programme->expected_child_count;
         }
 
         $last_title = '';
@@ -183,13 +154,6 @@ class IplayerFeedProgramme extends IplayerFeed implements I_MetadataProvider {
 
     public function getPid() {
         return $this->_pid;
-    }
-
-    protected function _spoutXml() {
-        $feed = $this->_getXml();
-        header("Content-type: application/xml");
-        echo preg_replace('#http://www.w3.org/1999/xhtml#', 'http://www.w3.org/1999/xhtml/nodisplay', $feed->asXML());
-        exit();
     }
 
     private $_brand       = '';
