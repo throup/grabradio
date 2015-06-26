@@ -1,3 +1,6 @@
 .project
 
 vendor/
+.idea/
+build/
+docs/

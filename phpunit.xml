@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<phpunit bootstrap="vendor/autoload.php">
+    <testsuites>
+        <testsuite name="unit">
+            <directory suffix="Test.php">tests/unit</directory>
+        </testsuite>
+    </testsuites>
+    <logging>
+        <log type="junit" target="build/phpunit/index.xml"/>
+        <log type="coverage-xml" target="build/coverage"/>
+        <log type="coverage-clover" target="build/clover.xml"/>
+        <log type="coverage-crap4j" target="build/crap4j.xml"/>
+        <log type="coverage-html" target="docs/coverage" charset="UTF-8"/>
+    </logging>
+    <filter>
+        <blacklist>
+            <directory>vendor</directory>
+        </blacklist>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
+</phpunit>
