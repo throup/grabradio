@@ -14,6 +14,14 @@ class Config {
         self::$_stations = (array)$array;
     }
 
+    public static function getGenres() {
+        return self::$_genres;
+    }
+
+    public static function setGenres($array) {
+        self::$_genres = (array)$array;
+    }
+
     public static function ignoreBrands($array) {
         $array         = array_map('strtolower', $array);
         self::$_ignore = array_merge(self::$_ignore, $array);
@@ -52,5 +60,7 @@ class Config {
     private static $_library  = '';
 
     private static $_stations = [];
+
+    private static $_genres = [];
 }
 

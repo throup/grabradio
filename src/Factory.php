@@ -37,7 +37,7 @@ class Factory {
         return $programme;
     }
 
-    public static function getStationList($station) {
-        return new IplayerFeedStation($station);
+    public static function getGenreList($genre) {
+        return new IplayerFeedGenre($genre);
     }
 }
