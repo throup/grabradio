@@ -1,0 +1,19 @@
+{
+  "authors": [
+    {
+      "name": "Chris Throup",
+      "email": "chris@throup.org.uk",
+      "homepage": "http://chris.throup.org.uk/",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-0": {
+      "uk\\": "uk/"
+    }
+  },
+  "include-path": ["uk"],
+  "require-dev": {
+    "phpunit/phpunit": "~4.4"
+  }
+}
