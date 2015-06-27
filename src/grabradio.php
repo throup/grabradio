@@ -46,17 +46,15 @@ foreach ($pids as $pid) {
     try {
         $programme = Factory::getProgramme($pid);
         if (!Config::toIgnore($programme->getBrand())) {
-            echo "Getting $pid... ";
+            $name          = "{$programme->getBrand()}:{$programme->getProgramme()}:{$programme->getTitle()}";
+            echo "Getting $name ($pid)... ";
             $programme->obtainMedia();
             echo "done.\n";
             echo "Moving $pid to library... ";
             $library->organiseProgramme($programme);
             echo "done.\n\n";
-            $name          = "{$programme->getBrand()}:{$programme->getProgramme()}:{$programme->getTitle()}";
-            echo $name, "\n";
             $success[$pid] = $name;
             fwrite($handle, $pid . "\n");
-            exit();
         }
     } catch (\Exception $e) {
         if ($programme) {
