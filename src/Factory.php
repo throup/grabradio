@@ -16,7 +16,7 @@ class Factory {
 
     public static function getMediaGetter() {
         $getter = new GetIplayer();
-        $getter->setMode('hls');
+        $getter->setMode('ddl,hls,best');
         $getter->setType('radio');
         $getter->setOutputFilename(self::getTempName());
         return $getter;
