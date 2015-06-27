@@ -32,14 +32,14 @@ class IplayerFeedGenre extends IplayerJsonFeed {
 
         foreach ($feed->broadcasts as $broadcast) {
             $entry = $broadcast->programme;
-            if ($entry->type == 'episode') {
+            if ($entry->type == 'episode' && $entry->is_available_mediaset_pc_sd) {
                 $pid           = $entry->pid;
                 $this->_pids[] = $pid;
-            } else if ($entry->type == 'series') {
+            } else if ($entry->type == 'series' && $entry->is_available_mediaset_pc_sd) {
                 $pid = $entry->pid;
                 $series = new IplayerFeedBrand($pid);
                 $this->_pids[] = array_merge($this->_pids, $series->getPids());
-            } else if ($entry->type == 'brand') {
+            } else if ($entry->type == 'brand' && $entry->is_available_mediaset_pc_sd) {
                 $pid = $entry->pid;
                 $series = new IplayerFeedBrand($pid);
                 $this->_pids[] = array_merge($this->_pids, $series->getPids());
