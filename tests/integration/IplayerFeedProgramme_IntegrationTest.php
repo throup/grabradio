@@ -1,7 +1,9 @@
 <?php
 namespace Throup\GrabRadio;
 
-class IplayerFeedProgramme_UnitTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit_Framework_TestCase;
+
+class IplayerFeedProgramme_IntegrationTest extends PHPUnit_Framework_TestCase {
     public function testAcceptsValidPid() {
         return new IplayerFeedProgramme($this->_pid);
     }

@@ -1,7 +1,9 @@
 <?php
 namespace Throup\GrabRadio;
 
-class IplayerFeedGenre_UnitTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit_Framework_TestCase;
+
+class IplayerFeedGenre_IntegrationTest extends PHPUnit_Framework_TestCase {
     public function testAcceptsValidGenre() {
         return new IplayerFeedGenre($this->_genre);
     }

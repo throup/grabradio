@@ -1,6 +1,8 @@
 <?php
 namespace Throup\GrabRadio;
 
+use DateTimeInterface;
+
 class Factory {
     public static function getFile($filename) {
         return new File($filename);
@@ -37,7 +39,7 @@ class Factory {
         return $programme;
     }
 
-    public static function getGenreList($genre) {
-        return new IplayerFeedGenre($genre);
+    public static function getGenreList($genre, DateTimeInterface $date = null) {
+        return new IplayerFeedGenre($genre, $date);
     }
 }

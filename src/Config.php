@@ -39,7 +39,7 @@ class Config {
         }
         foreach ($files as $file) {
             try {
-                include_once($file);
+                @include_once($file);
             } catch (\Exception $e) {
                 echo "Problem with config file: $file.\n";
                 die($e->getMessage());

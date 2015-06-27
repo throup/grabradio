@@ -1,10 +1,22 @@
 <?php
 namespace Throup\GrabRadio;
 
+use DateTimeImmutable;
+use DateTimeInterface;
+
 class IplayerFeedGenre extends IplayerJsonFeed {
-    public function __construct($genre) {
+    public function __construct($genre, DateTimeInterface $date = null) {
+        if (!$date) {
+            $date = new DateTimeImmutable();
+        }
         self::_validateGenre($genre);
-        $url = "http://www.bbc.co.uk/radio/programmes/genres/{$genre}/player.json";
+        $url = sprintf(
+            "http://www.bbc.co.uk/radio/programmes/genres/%s/schedules/%04d/%02d/%02d.json",
+            $genre,
+            $date->format('Y'),
+            $date->format('m'),
+            $date->format('d')
+        );
         parent::__construct($url);
         $this->_extractEpisodes();
     }
@@ -18,15 +30,16 @@ class IplayerFeedGenre extends IplayerJsonFeed {
     protected function _extractEpisodes() {
         $feed = $this->_getExtractedContent();
 
-        foreach ($feed->category_slice->programmes as $entry) {
-            if ($entry->type == 'episode' && $entry->is_available) {
+        foreach ($feed->broadcasts as $broadcast) {
+            $entry = $broadcast->programme;
+            if ($entry->type == 'episode') {
                 $pid           = $entry->pid;
                 $this->_pids[] = $pid;
-            } else if ($entry->type == 'series' && $entry->is_available) {
+            } else if ($entry->type == 'series') {
                 $pid = $entry->pid;
                 $series = new IplayerFeedBrand($pid);
                 $this->_pids[] = array_merge($this->_pids, $series->getPids());
-            } else if ($entry->type == 'brand' && $entry->is_available) {
+            } else if ($entry->type == 'brand') {
                 $pid = $entry->pid;
                 $series = new IplayerFeedBrand($pid);
                 $this->_pids[] = array_merge($this->_pids, $series->getPids());

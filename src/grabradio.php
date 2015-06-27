@@ -1,18 +1,32 @@
 <?php
 namespace Throup\GrabRadio;
 
+use DateInterval;
+use DatePeriod;
+use DateTimeImmutable;
+use DateTimeZone;
+
 require_once(__DIR__ . '/_config.php');
 
-$downloaded = '';// file_get_contents("/storage/shared/Radio/downloaded");
+$downloaded = @file_get_contents("/storage/shared/Radio/downloaded");
 $downloaded = explode("\n", $downloaded);
-//$handle     = fopen("/storage/shared/Radio/downloaded", "a");
+$handle     = @fopen("/storage/shared/Radio/downloaded", "a");
 
 $barepids = [];
+$today = new DateTimeImmutable('00:00:00Z', new DateTimeZone('UTC'));
+$dates = new DatePeriod(
+    $today->sub(new DateInterval('P7D')),
+    new DateInterval('P1D'),
+    $today
+);
 foreach (Config::getGenres() as $genre) {
-    echo "Getting feed for $genre... ";
-    $list     = Factory::getGenreList($genre);
-    $barepids = array_merge($barepids, $list->getPids());
-    echo "done.\n";
+    /** @var DateTimeImmutable $date */
+    foreach ($dates as $date) {
+        echo "Getting feed for $genre on {$date->format('Y-m-d')}... ";
+        $list     = Factory::getGenreList($genre, $date);
+        $barepids = array_merge($barepids, $list->getPids());
+        echo "done.\n";
+    }
 }
 echo "\n";
 
@@ -33,15 +47,15 @@ foreach ($pids as $pid) {
         $programme = Factory::getProgramme($pid);
         if (!Config::toIgnore($programme->getBrand())) {
             echo "Getting $pid... ";
-  //          $programme->obtainMedia();
+            $programme->obtainMedia();
             echo "done.\n";
             echo "Moving $pid to library... ";
- //           $library->organiseProgramme($programme);
+            $library->organiseProgramme($programme);
             echo "done.\n\n";
             $name          = "{$programme->getBrand()}:{$programme->getProgramme()}:{$programme->getTitle()}";
             echo $name, "\n";
             $success[$pid] = $name;
-//            fwrite($handle, $pid . "\n");
+            fwrite($handle, $pid . "\n");
             exit();
         }
     } catch (\Exception $e) {
